@@ -17,19 +17,19 @@ class Command(BaseCommand):
         try:
             response = requests.get(json_url)
             response.raise_for_status()
-            place_data = response.json()
+            payload = response.json()
 
             place, created = Place.objects.update_or_create(
-                title=place_data.get('title'),
+                title=payload.get('title'),
                 defaults={
-                    'short_description': place_data.get('description_short'),
-                    'long_description': place_data.get('description_long'),
-                    'longitude': place_data['coordinates'].get('lng'),
-                    'latitude': place_data['coordinates'].get('lat')
+                    'short_description': payload.get('description_short'),
+                    'long_description': payload.get('description_long'),
+                    'longitude': payload['coordinates'].get('lng'),
+                    'latitude': payload['coordinates'].get('lat')
                 }
             )
 
-            image_urls = place_data.get('imgs', [])
+            image_urls = payload.get('imgs', [])
             for i, image_url in enumerate(image_urls):
                 try:
                     image_response = requests.get(
