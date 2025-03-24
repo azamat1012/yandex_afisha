@@ -1,9 +1,11 @@
-import requests
-import sys
 import time
+import sys
+
+from places.models import Place, Image
+
+import requests
 from django.core.management.base import BaseCommand
 from django.core.files.base import ContentFile
-from places.models import Place, Image
 
 
 class Command(BaseCommand):
