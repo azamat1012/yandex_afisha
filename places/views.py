@@ -1,12 +1,12 @@
-from .models import Place, Image
-
 import json
 
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render
 from django.http import HttpResponse
 from django.http.response import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render
 from django.urls import reverse
+
+from .models import Place, Image
 
 
 def fetch_places_data(request):
@@ -17,7 +17,7 @@ def fetch_places_data(request):
         'features': []
     }
 
-    feature = [
+    features = [
         {
             'type': 'Feature',
             'geometry': {
@@ -35,7 +35,7 @@ def fetch_places_data(request):
     ]
     geojson_container = {
         'type': 'FeatureCollection',
-        'features': feature
+        'features': features
     }
 
     geojson_data = json.dumps(geojson_container)
@@ -49,7 +49,6 @@ def place_detail(request, id):
 
     places_data = {
         'title': place.title,
-        'imgs': [img.image.url for img in images],
         'description_short': place.short_description,
         'description_long': place.long_description,
         'coordinates': {
