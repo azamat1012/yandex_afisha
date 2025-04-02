@@ -42,8 +42,9 @@ def place_detail(request, id):
     place = get_object_or_404(Place.objects.prefetch_related('images'), id=id)
     images = place.images.all()
 
-    places_data = {
+    payload = {
         'title': place.title,
+        'imgs': [img.image.url for img in place.images.all()],
         'description_short': place.short_description,
         'description_long': place.long_description,
         'coordinates': {
@@ -52,4 +53,4 @@ def place_detail(request, id):
         }
     }
 
-    return JsonResponse(places_data, json_dumps_params={'ensure_ascii': False, 'indent': 2})
+    return JsonResponse(payload, json_dumps_params={'ensure_ascii': False, 'indent': 2})
