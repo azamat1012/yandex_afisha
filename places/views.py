@@ -12,11 +12,6 @@ from .models import Place, Image
 def fetch_places_data(request):
     places = Place.objects.all()
 
-    geojson_container = {
-        'type': 'FeatureCollection',
-        'features': []
-    }
-
     features = [
         {
             'type': 'Feature',
